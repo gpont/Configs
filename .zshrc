@@ -296,3 +296,16 @@ alias weather='curl wttr.in/Томск'
 # Neovim aliases
 alias nvim='nocorrect nvim'
 
+# for magit emacs plugin on mac 
+[[ $TERM == "dumb" ]] && {
+    # Reset shell so Tramp could parse the prompt
+    unsetopt zle
+    PS1='$ '
+} || {
+    # Do other stuff
+    test -e "${HOME}/.iterm2_shell_integration.zsh"
+    source "${HOME}/.iterm2_shell_integration.zsh"
+}
+
+# Sqlplus aliases
+alias sql='rlwrap -if ~/.oracle/sqlplus.dict -pgreen sqlplus'
