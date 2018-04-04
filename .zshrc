@@ -11,7 +11,6 @@ autoload -U colors && colors
 
 for color in red green yellow blue magenta cyan black white; do
     eval $color='%{$fg_no_bold[${color}]%}'
-    #eval ${color}_bold='%{$fg_bold[${color}]%}'
 done
 
 reset="%{$reset_color%}"
@@ -52,9 +51,6 @@ else
   bracket_c="${black}]"
 fi
 
-# PROMPT="${host}${bracket_o}${magenta}%2~${bracket_c}${reset} "
-# RPROMPT='$vcs_info_msg_0_'"$reset"
-
 # title
 case $TERM in
   xterm*|rxvt*|screen*)
@@ -77,11 +73,10 @@ WORDCHARS=''
 
 # editor
 export EDITOR="nvim"
-export BROWSER="chromium-browser"
 
 # grep colors
 export GREP_COLORS="mt=33"
-export GREP_OPTIONS='--color=auto'
+export GREP_OPTIONS='-G'
 
 # disable speaker
 unsetopt beep
@@ -175,8 +170,8 @@ permsg() {
 # search
 ss() { find . | xargs grep "$1" -sl }
 
-alias l='ls -lAh --color=auto --group-directories-first'
-alias ls='ls --color=auto --group-directories-first'
+alias l='ls -lAh -G'
+alias ls='ls -G'
 alias g='grep'
 alias se='sudoedit'
 
@@ -184,18 +179,6 @@ alias df='df -h'
 alias du='du -h --max-depth=1 | sort -h'
 
 alias off='sleep 1; xset dpms force off'
-
-# timer
-tm() { (sleep "$1" && cd /storage/music/fav && mpg123 -q "$(ls | shuf -n1)" ) & }
- t() { (sleep "$1" && mpg123 -q /storage/dropbox/sound/mailinbox.mp3 ) & }
-
-# aptitude
-alias  a='nocorrect sudo aptitude install'
-alias au='nocorrect sudo aptitude update && sudo aptitude safe-upgrade'
-alias ai='aptitude show'
-alias as='aptitude search'
-alias arm='nocorrect sudo aptitude remove'
-alias aptitude='nocorrect aptitude'
 
 alias deploy='ssh_agent && cap production deploy'
 
@@ -218,43 +201,12 @@ autoload -U colors && colors
 
 for color in red green yellow blue magenta cyan black white; do
     eval $color='%{$fg_no_bold[${color}]%}'
-    #eval ${color}_bold='%{$fg_bold[${color}]%}'
 done
 
 reset="%{$reset_color%}"
 
-# Promt
-# if [ "$EUID" -eq 0 ]; then
-#   PROMPT="${host}${red}[${magenta}%2`${red}]${reset} " # root
-# else
-#   PROMPT="${host}${black}[${magenta}%2`${black}]${reset} " # user
-# fi
-
 setopt notify
 setopt correctall
-
-# Coloring aptitude search
-aptsearch ()
-{
-    # Search and highlight keyword  in the restuls
-    export GREP_COLOR='1'
-    # Remove regexp patterns from the keyword to highlight
-    keyword=`echo -n "$1" | sed -e 's/[^[:alnum:]|-]//g'`
-    echo_bold "Highlight keyword: $keyword"
-    aptitude search "$1" --disable-columns | egrep --color "$keyword" 
-
-    # Use the matching results to complete our install command
-    matching=$(aptitude search --disable-columns -F "%p" "$1" | tr '\n' ' ') 
-    count=0
-    for i in $matching ; do
-        count=$((count + 1))
-    done
-    complete -W '$matching' aptinstall
-    echo_bold "(Matching packages: $count)"
-    if ! [ -z $2 ] ; then
-        echo -e "$matching" | egrep --color=always "$keyword"
-    fi
-}
 
 extract () {
   if [ -f $1 ] ; then
@@ -296,7 +248,7 @@ alias weather='curl wttr.in/Томск'
 # Neovim aliases
 alias nvim='nocorrect nvim'
 
-# for magit emacs plugin on mac 
+# Ror magit emacs plugin on mac
 [[ $TERM == "dumb" ]] && {
     # Reset shell so Tramp could parse the prompt
     unsetopt zle
@@ -307,5 +259,12 @@ alias nvim='nocorrect nvim'
     source "${HOME}/.iterm2_shell_integration.zsh"
 }
 
-# Sqlplus aliases
-alias sql='rlwrap -if ~/.oracle/sqlplus.dict -pgreen sqlplus'
+# Sqlplus `sql user/pass@host`
+alias sql='rlwrap -if ~/Applications/SQL*Port/sqlplus.dict -pgreen ~/Applications/SQL*Port/sqlplus'
+
+# Ert Humax 9000 emulator
+alias ert='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome "http://localhost:1300/emulator.html#" --enable-ipv6 --inspect --auto-open-devtools-for-tabs --disable-web-security --user-data-dir="/Users/gpont/tmp/chrome" --user-agent="Opera/9.80 (Linux 7405b0-smp; U; HbbTV/1.1.1 (; Humax; HD 9000i; 1.00.36; 1.0; ); ce-html/1.0; xx) Presto/2.9.167 Version/11.50"'
+
+# Git rebase with force push
+alias grwp='nocorrect git rebase -i origin/master --preserve-merges && git push --force-with-lease origin'
+
