@@ -6,3 +6,4 @@ mkdir .config
 mkdir .config/nvim
 cp init.vim ~/.config/nvim/init.vim
 git config --global oh-my-zsh.hide-status 1
+git config --global push.default current
