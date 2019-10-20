@@ -1,9 +1,20 @@
 #!/bin/bash
+# Zsh and Oh My Zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 cp ./.zshrc ~/.zshrc
-cp ./.zshrc_oh_my_zsh ~/.zshrc_oh_my_zsh
-mkdir .config
-mkdir .config/nvim
+mkdir ~/.zshrc
+cp ./.zsh/oh_my_zsh.zshrc ~/.zsh/oh_my_zsh.zshrc
+mkdir ~/.config
+mkdir ~/.config/nvim
 cp init.vim ~/.config/nvim/init.vim
 git config --global oh-my-zsh.hide-status 1
 git config --global push.default current
+
+git clone https://github.com/jimeh/zsh-peco-history.git $ZSH_CUSTOM/plugins/zsh-peco-history
+
+# MacOS only
+
+# Brew
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew update && brew upgrade
+brew install nvim git gpg wget pip bat

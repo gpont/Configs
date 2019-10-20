@@ -37,7 +37,14 @@ Plug 'Chiel92/vim-autoformat'
 Plug 'ryanoasis/vim-devicons'
 Plug 'mattn/webapi-vim'
 Plug 'mattn/gist-vim'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+let g:deoplete#enable_at_startup = 1
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 
 " CSS plugins
@@ -176,4 +183,3 @@ endfunction
 " Autosave session when open/exit
 " autocmd VimLeave * call SaveSess()
 " autocmd VimEnter * call RestoreSess()
-

@@ -1,5 +1,5 @@
 # Oh My Zsh
-source ~/.zshrc_oh_my_zsh
+source ~/.zsh/oh_my_zsh.zshrc
 
 # -----------------------------
 # Prompt + Title
@@ -132,21 +132,6 @@ bindkey '^[[1;5C'   forward-word  #ctrl+right
 # Aliases
 # -----------------------------
 
-# tmux
-alias tmux='tmux attach || tmux new'
-
-# ssht
-ssht () { ssh -t "$1" 'tmux attach || tmux new' }
-
-# history
-h() {
-  if [[ -z "$1" ]]; then
-    history
-  else
-    history 0 | grep "$*"
-  fi
-}
-
 # permissions
 perms() {
   if [[ -z "$1" ]]; then
@@ -167,29 +152,10 @@ permsg() {
   fi
 }
 
-# search
-ss() { find . | xargs grep "$1" -sl }
-
 alias l='ls -lAh -G'
 alias ls='ls -G'
-alias g='grep'
-alias se='sudoedit'
-
 alias df='df -h'
 alias du='du -h --max-depth=1 | sort -h'
-
-alias off='sleep 1; xset dpms force off'
-
-alias deploy='ssh_agent && cap production deploy'
-
-# ssh
-ssh_agent() {
-  if [[ -z "$SSH_AUTH_SOCK" ]]; then
-    pkill ssh-agent
-    eval $(ssh-agent)
-    ssh-add
-  fi
-}
 
 # PATHS
 [[ -s /etc/profile.d/autojump.sh ]] && . /etc/profile.d/autojump.sh
@@ -206,29 +172,9 @@ done
 reset="%{$reset_color%}"
 
 setopt notify
-setopt correctall
 
-extract () {
-  if [ -f $1 ] ; then
-    case $1 in
-      *.tar.bz2) tar xvjf $1   ;;
-      *.tar.gz)  tar xvzf $1   ;;
-      *.tar.xz)  tar xvfJ $1   ;;
-      *.bz2)     bunzip2 $1    ;;
-      *.rar)     unrar x $1    ;;
-      *.gz)      gunzip $1     ;;
-      *.tar)     tar xvf $1    ;;
-      *.tbz2)    tar xvjf $1   ;;
-      *.tgz)     tar xvzf $1   ;;
-      *.zip)     unzip $1      ;;
-      *.Z)       uncompress $1 ;;
-      *.7z)      7z x $1       ;;
-      *)         echo "'$1' cannot be extracted via >extract<" ;;
-    esac
-  else
-    echo "'$1' is not a valid file"
-  fi
-}
+# Disable autocorrect
+unsetopt correct_all
 
 if [ -f /usr/bin/grc ]; then
 	alias ping='grc --colour=auto ping'
@@ -242,12 +188,6 @@ if [ -f /usr/bin/grc ]; then
 	alias logh="grc head"
 fi
 
-# Weather in Tomsk showing
-alias weather='curl wttr.in/Томск'
-
-# Neovim aliases
-alias nvim='nocorrect nvim'
-
 # Ror magit emacs plugin on mac
 [[ $TERM == "dumb" ]] && {
     # Reset shell so Tramp could parse the prompt
@@ -259,12 +199,13 @@ alias nvim='nocorrect nvim'
     source "${HOME}/.iterm2_shell_integration.zsh"
 }
 
-# Sqlplus `sql user/pass@host`
-alias sql='rlwrap -if ~/Applications/SQL*Port/sqlplus.dict -pgreen ~/Applications/SQL*Port/sqlplus'
+# Nvm configure
+export NVM_DIR="$HOME/.nvm"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
 
-# Ert Humax 9000 emulator
-alias ert='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome "http://localhost:1300/emulator.html#" --enable-ipv6 --inspect --auto-open-devtools-for-tabs --disable-web-security --user-data-dir="/Users/gpont/tmp/chrome" --user-agent="Opera/9.80 (Linux 7405b0-smp; U; HbbTV/1.1.1 (; Humax; HD 9000i; 1.00.36; 1.0; ); ce-html/1.0; xx) Presto/2.9.167 Version/11.50"'
+# Zshrc edit
+alias zshrc='code ~/.zshrc'
 
-# Git rebase with force push
-alias grwp='nocorrect git rebase -i origin/master --preserve-merges && git push --force-with-lease origin'
-
+# Bat (https://github.com/sharkdp/bat)
+alias cat='bat'
