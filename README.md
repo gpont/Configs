@@ -6,6 +6,7 @@ Useful configs
 
 ```
 git clone https://github.com/gpont/Configs.git
+cd Configs
 ./configure.sh
 ```
 
