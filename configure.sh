@@ -7,6 +7,7 @@ cp ./.zsh/oh_my_zsh.zshrc ~/.zsh/oh_my_zsh.zshrc
 mkdir ~/.config
 mkdir ~/.config/nvim
 cp init.vim ~/.config/nvim/init.vim
+cp .ideavim ~/.ideavim
 git config --global oh-my-zsh.hide-status 1
 git config --global push.default current
 
