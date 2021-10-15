@@ -1,4 +1,9 @@
 #!/bin/bash
+
+cd "$HOME"
+
+system_type=$(uname -s)
+
 # Zsh and Oh My Zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 cp ./.zshrc ~/.zshrc
@@ -15,7 +20,12 @@ git clone https://github.com/jimeh/zsh-peco-history.git $ZSH_CUSTOM/plugins/zsh-
 
 # MacOS only
 
-# Brew
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-brew update && brew upgrade
-brew install nvim git gpg wget pip bat
+if [ "$system_type" = "Darwin" ]; then
+    # Brew
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    brew update && brew upgrade
+    brew install nvim git gpg wget pip bat
+fi
+
+# Fix deoplete plugin in neovim
+pip3 install neovim
